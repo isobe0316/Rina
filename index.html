@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>硝子の箱</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- スタート画面（音声なし） -->
+        <div id="start-screen" class="start-screen">
+            <div class="start-content">
+                <p class="start-prompt">画面をクリックしてください</p>
+            </div>
+        </div>
+        
+        <!-- タイトル画面（OPテーマ再生） -->
+        <header class="title-screen hidden" id="title-screen">
+            <h1 class="main-title">硝子の箱</h1>
+            <p class="subtitle">—— 数字が消えていく場所</p>
+            
+            <div class="menu">
+                <button class="menu-btn" onclick="startStory()">
+                    <span class="btn-text">はじめから</span>
+                    <span class="btn-desc">『埋まらない差額』を読む</span>
+                </button>
+                
+                <button class="menu-btn" onclick="showAbout()">
+                    <span class="btn-text">この物語について</span>
+                    <span class="btn-desc">あらすじ・登場人物</span>
+                </button>
+                
+                <button class="menu-btn" onclick="showIndex()">
+                    <span class="btn-text">各ストーリー</span>
+                    <span class="btn-desc">ルート・エンディングを選択</span>
+                </button>
+            </div>
+        </header>
+        
+        <div id="index-view" class="index-view hidden">
+            <div class="index-content">
+                <h2>各ストーリー</h2>
+                
+                <section class="index-section">
+                    <h3>メインストーリー</h3>
+                    <ul>
+                        <li><a href="reader.html?file=story_ch1.md">『埋まらない差額』</a>
+                            <span class="subtitle-text">第1章～第3章、ここから始めてください</span>
+                        </li>
+                    </ul>
+                </section>
+                
+                <section class="index-section">
+                    <h3>ルート</h3>
+                    <ul>
+                        <li><a href="reader.html?file=routes/route_a.md">『美咲の箱』</a>
+                            <span class="subtitle-text">盾にならない箱</span>
+                        </li>
+                        <li><a href="reader.html?file=routes/route_a_bad.md">『踏み外す』</a>
+                            <span class="subtitle-text">触れた指のあと</span>
+                        </li>
+                        <li><a href="reader.html?file=routes/route_b.md">『預かった言葉』</a>
+                            <span class="subtitle-text">一文字を、返さない</span>
+                        </li>
+                        <li><a href="reader.html?file=routes/route_c.md">『許された発覚』</a>
+                            <span class="subtitle-text">箱を作った人の夕暮れ</span>
+                        </li>
+                    </ul>
+                </section>
+                
+                <section class="index-section">
+                    <h3>エンディング</h3>
+                    <ul>
+                        <li><a href="reader.html?file=endings/ending_true.md">『箱が生まれない場所』</a>
+                            <span class="subtitle-text">手順の外側</span>
+                        </li>
+                        <li><a href="reader.html?file=endings/ending_normal.md">『ノーマルエンディング』</a>
+                            <span class="subtitle-text">まだ合っていない</span>
+                        </li>
+                        <li><a href="reader.html?file=endings/ending_dead.md">『水位』</a>
+                            <span class="subtitle-text">静かに沈む</span>
+                        </li>
+                        <li><a href="reader.html?file=endings/ending_bad.md">『触れた指のあと』</a>
+                            <span class="subtitle-text">きれいに壊れる</span>
+                        </li>
+                    </ul>
+                </section>
+                
+                <button class="back-btn" onclick="hideIndex()">戻る</button>
+            </div>
+        </div>
+        
+        <div id="about-view" class="about-view hidden">
+            <div class="about-content">
+                <h2>この物語について</h2>
+                
+                <section class="about-section">
+                    <h3>概要</h3>
+                    <p>経理部を舞台にした企業サスペンス。</p>
+                    <p>会社に眠る「埋まらない差額」——数千万円規模の不正会計の闇を、新人・宮本梨奈と先輩・亜久斗が解き明かしていく。</p>
+                    <p>過去の沈黙、現在の選択、そして未来への責任。</p>
+                    <p>静かに、しかし確実に、会社は変わり始める。</p>
+                </section>
+                
+                <section class="about-section">
+                    <h3>ジャンル</h3>
+                    <p>マルチエンディング・ノベルゲーム</p>
+                </section>
+                
+                <section class="about-section">
+                    <h3>主な登場人物</h3>
+                    <ul>
+                        <li><strong>締野亜久斗（しめの あくと）</strong> - 経理部5年目、27歳。語り手。恋人の美咲を失い、「箱」に気づきながら見ないふりを続けてきた。静かに、しかし確実に変化していく。</li>
+                        <li><strong>宮本梨奈（みやもと りな）</strong> - 経理部の新人、22歳。観察力が鋭く、新人らしからぬ洞察を見せる。言葉を選びながら、確実に核心に近づいていく。過去に何かを見てきた目をしている。</li>
+                        <li><strong>美咲（みさき）</strong> - 故人。亜久斗の恋人だった。FP&A（Financial Planning & Analysis）所属。数字に感情を混ぜない人だった。仕事に悩み自殺したが、真相は箱の中に隠されたまま。</li>
+                        <li><strong>権田部長</strong> - 経理部部長、50代。パワハラ気質で声が大きい。「箱」の存在を黙認し、組織の論理で動く。過去の決定を守ろうとする。</li>
+                        <li><strong>佐伯恒一（さえき こういち）</strong> - 監査室課長、40代前半。差額に気づきながらスルーし続けた。組織の中で生き延びるために、見て見ぬふりを選んできた。</li>
+                        <li><strong>田中係長</strong> - 経理部係長、35歳前後。事なかれ主義。波風を立てたくない性格で、問題を先送りにする傾向がある。</li>
+                        <li><strong>西川</strong> - 経理部のベテラン社員。実務に詳しいが、変化を嫌う。「昔からこうだった」を盾にする。</li>
+                    </ul>
+                </section>
+                
+                <section class="about-section">
+                    <h3>推奨の読み方</h3>
+                    <ol>
+                        <li>メインストーリー『埋まらない差額』を読む（第1章～第3章）</li>
+                        <li>第3章の最後で、ルートA / B / C のいずれかを選択</li>
+                        <li>各ルートの最後から、対応するエンディングへ進む</li>
+                    </ol>
+                    <p class="note">※エンディングは各ルートから自然につながります。目次から直接選ぶこともできますが、物語の流れを楽しむには、メインストーリー→ルート→エンディングの順がおすすめです。</p>
+                </section>
+                
+                <button class="back-btn" onclick="hideAbout()">戻る</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/audio.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
