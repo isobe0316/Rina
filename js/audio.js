@@ -12,6 +12,7 @@ class AudioManager {
         this.tracks = {
             // === 歌（ボーカル入り）4曲 ===
             op: 'audio/op_theme.mp3',                         // OPテーマ
+            storyOpening: 'audio/story_opening.mp3',          // ストーリー導入曲
             choiceMoment: 'audio/choice_moment.mp3',          // 挿入歌：運命の分岐点
             trueEnd: 'audio/true_ed.mp3',                     // True EDテーマ：雨上がりの別れ
             badDeadEnd: 'audio/bad_dead_ed.mp3',              // Bad/Dead EDテーマ：水位と沈殿
@@ -51,6 +52,8 @@ class AudioManager {
         
         // シーン別BGMマッピング（キーワード検出用）
         this.sceneKeywords = {
+            // ストーリー導入
+            storyOpening: ['第1章: 偶然のふり', 'その数字は、偶然ではなかった'],
             // メインストーリー
             officeNight: ['夜のオフィス', '蛍光灯', 'コピー機は規則正しく'],
             archiveRoom: ['資料室', '棚の間', '背表紙', '紙の匂い'],

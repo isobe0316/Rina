@@ -117,6 +117,6 @@
 梨奈と亜久斗の選択が、どのような未来を生むのか――
 
 <div class="choice-buttons">
-  <a href="reader.html?file=endings/ending_normal.md" class="choice-btn">ノーマルエンディング：まだ合っていない</a>
-  <a href="reader.html?file=endings/ending_true.md" class="choice-btn">トゥルーエンディング：箱が生まれない場所</a>
+  <a href="reader.html?file=endings/ending_normal.md" class="choice-btn">静かな終わり：「まだ合っていない」</a>
+  <a href="reader.html?file=endings/ending_true.md" class="choice-btn">光の先へ：「箱が生まれない場所」</a>
 </div>

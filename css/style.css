@@ -271,6 +271,119 @@ body {
     color: var(--accent-hover);
 }
 
+/* コントロールグループ */
+.controls-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* 音量コントロール */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.volume-control label {
+    font-size: 1.2rem;
+    cursor: help;
+    user-select: none;
+}
+
+.volume-control input[type="range"] {
+    width: 100px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.volume-control input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.volume-control input[type="range"]:hover::-webkit-slider-thumb {
+    background: var(--accent-hover);
+}
+
+.volume-control input[type="range"]:hover::-moz-range-thumb {
+    background: var(--accent-hover);
+}
+
+/* 背景透過度コントロール */
+.bg-opacity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bg-opacity-control label {
+    font-size: 1.2rem;
+    cursor: help;
+    user-select: none;
+}
+
+.bg-opacity-control input[type="range"] {
+    width: 100px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.bg-opacity-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.bg-opacity-control input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.bg-opacity-control input[type="range"]:hover::-webkit-slider-thumb {
+    background: var(--accent-hover);
+}
+
+.bg-opacity-control input[type="range"]:hover::-moz-range-thumb {
+    background: var(--accent-hover);
+}
+
 .progress-info {
     color: var(--text-secondary);
     font-size: 0.9rem;
@@ -575,6 +688,6 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 14, 20, 0.7);
-    z-index: 1;
+    background: rgba(10, 14, 20, 0.5); /* 透明度を0.5に変更 - 画像が見やすく、文字も読みやすい */
+    pointer-events: none;
 }

@@ -5,11 +5,34 @@ let currentSections = [];
 let currentSectionIndex = 0;
 
 // ========== 背景画像管理 ==========
+// ファイルごとの背景画像マッピング
+const backgroundImages = {
+    'story_ch1.md': 'images/bg_window_cloudy_day.jpg',
+    'story_ch2.md': 'images/bg_rain_window_evening.jpg',
+    'story_ch3.md': 'images/rain_window_day.jpg',
+    'routes/route_a1.md': 'images/glass_meeting_room.jpg',
+    'routes/route_a2.md': 'images/glass_meeting_room.jpg',
+    'routes/route_a_cafe.md': 'images/cafe_window.jpg',
+    'routes/route_a_end.md': 'images/glass_meeting_room.jpg',
+    'routes/route_a_bad1.md': 'images/shattered_glass.jpg',
+    'routes/route_a_bad2.md': 'images/shattered_glass.jpg',
+    'routes/route_a_bad_end.md': 'images/shattered_glass.jpg',
+    'routes/route_b1.md': 'images/rain_window.jpg',
+    'routes/route_b2.md': 'images/office_night.jpg',
+    'routes/route_b_end.md': 'images/office_night.jpg',
+    'routes/route_c.md': 'images/rain_window.jpg',
+    'endings/ending_true.md': 'images/empty_desk.jpg',
+    'endings/ending_bad.md': 'images/shattered_glass.jpg',
+    'endings/ending_dead.md': 'images/underwater_room.jpg',
+    'endings/ending_normal.md': 'images/rainy_crossing.jpg'
+};
+
 // 背景画像を変更するヘルパー関数
 function changeBg(imagePath) {
     const bgLayer = document.getElementById('bg-image');
     if (bgLayer) {
         bgLayer.style.backgroundImage = `url('${imagePath}')`;
+        console.log('Background changed to:', imagePath);
     }
 }
 
@@ -21,7 +44,16 @@ function resetBg() {
     }
 }
 
-// グローバル関数として公開（Markdown内のscriptタグから呼べるように）
+// 現在のファイルに応じて背景画像を設定
+function setBackgroundForFile(filePath) {
+    if (backgroundImages[filePath]) {
+        changeBg(backgroundImages[filePath]);
+    } else {
+        console.log('No background image defined for:', filePath);
+    }
+}
+
+// グローバル関数として公開（必要に応じて手動で変更できるように）
 window.changeBg = changeBg;
 window.resetBg = resetBg;
 
@@ -65,6 +97,9 @@ async function renderMarkdown() {
     // markedでHTMLに変換
     const html = marked.parse(markdown);
     contentDiv.innerHTML = html;
+    
+    // 背景画像を設定
+    setBackgroundForFile(currentFile);
     
     // セクションに分割（h2タグで分割）
     splitIntoSections();
@@ -226,6 +261,61 @@ function updateScrollProgress() {
 // イベントリスナー設定
 document.getElementById('prev-section').addEventListener('click', goToPrevSection);
 document.getElementById('next-section').addEventListener('click', goToNextSection);
+
+// 音量コントロール
+const volumeSlider = document.getElementById('volume');
+if (volumeSlider && typeof audioManager !== 'undefined') {
+    // 保存されている値を復元
+    const savedVolume = localStorage.getItem('bgmVolume');
+    if (savedVolume !== null) {
+        volumeSlider.value = savedVolume;
+        audioManager.volume = savedVolume / 100;
+        if (audioManager.bgm) {
+            audioManager.bgm.volume = audioManager.volume;
+        }
+    }
+    
+    volumeSlider.addEventListener('input', (e) => {
+        const value = e.target.value;
+        audioManager.volume = value / 100;
+        if (audioManager.bgm) {
+            audioManager.bgm.volume = audioManager.volume;
+        }
+        localStorage.setItem('bgmVolume', value);
+    });
+}
+
+// 背景透過度コントロール
+const bgOpacitySlider = document.getElementById('bg-opacity');
+if (bgOpacitySlider) {
+    // 保存されている値を復元
+    const savedOpacity = localStorage.getItem('bgOpacity');
+    if (savedOpacity !== null) {
+        bgOpacitySlider.value = savedOpacity;
+        updateBgOpacity(savedOpacity);
+    }
+    
+    bgOpacitySlider.addEventListener('input', (e) => {
+        const value = e.target.value;
+        updateBgOpacity(value);
+        localStorage.setItem('bgOpacity', value);
+    });
+}
+
+function updateBgOpacity(value) {
+    const bgLayer = document.getElementById('bg-image');
+    if (bgLayer) {
+        // 0-80の値を0-0.8の透明度に変換
+        const opacity = value / 100;
+        // .bg-layer::afterの背景色の透明度を調整
+        const style = document.getElementById('bg-opacity-style') || document.createElement('style');
+        style.id = 'bg-opacity-style';
+        style.textContent = `.bg-layer::after { background: rgba(10, 14, 20, ${opacity}) !important; }`;
+        if (!document.getElementById('bg-opacity-style')) {
+            document.head.appendChild(style);
+        }
+    }
+}
 
 // スクロール時に進捗を更新
 let scrollTimeout;

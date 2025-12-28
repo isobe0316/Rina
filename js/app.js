@@ -39,6 +39,13 @@ document.addEventListener('keydown', (e) => {
 
 // スタート画面からタイトル画面へ遷移
 function showTitleScreen() {
+    // 背景画像を設定（雨の窓 - 夜）
+    const bgLayer = document.getElementById('bg-image');
+    if (bgLayer) {
+        bgLayer.style.backgroundImage = "url('images/rain_window.jpg')";
+        console.log('Title screen background set');
+    }
+    
     const startScreen = document.getElementById('start-screen');
     const titleScreen = document.getElementById('title-screen');
     
@@ -66,6 +73,13 @@ window.addEventListener('beforeunload', () => {
 window.addEventListener('DOMContentLoaded', () => {
     const startScreen = document.getElementById('start-screen');
     const titleScreen = document.getElementById('title-screen');
+    
+    // ページ読み込み時に背景画像を設定
+    const bgLayer = document.getElementById('bg-image');
+    if (bgLayer) {
+        bgLayer.style.backgroundImage = "url('images/rain_window.jpg')";
+        console.log('Initial background set on load');
+    }
     
     // URLに#titleがある場合は直接タイトル画面へ
     if (window.location.hash === '#title') {
