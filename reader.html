@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="reader-body">
+    <!-- 背景画像レイヤー -->
+    <div id="bg-image" class="bg-layer"></div>
+    
     <div class="reader-container">
         <nav class="reader-nav">
             <a href="index.html#title" class="nav-btn">
@@ -22,10 +25,10 @@
         </main>
         
         <div class="reader-controls">
-            <button id="prev-section" class="control-btn" disabled>
+            <button id="prev-section" class="control-btn" disabled title="前のページに戻る">
                 <span>← 前のセクション</span>
             </button>
-            <button id="next-section" class="control-btn" disabled>
+            <button id="next-section" class="control-btn" disabled title="戻る前のページに進む">
                 <span>次のセクション →</span>
             </button>
         </div>

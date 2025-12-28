@@ -17,11 +17,13 @@
 }
 
 body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    /* 明朝体フォントに変更 - 文学的・サスペンス感 */
+    font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Mincho E", "MS PMincho", "MS Mincho", serif;
     background: var(--bg-dark);
     color: var(--text-primary);
-    line-height: 1.8;
+    line-height: 2.0; /* 行間を広めに - 余白の美しさ */
     font-size: 16px;
+    letter-spacing: 0.05em; /* 文字間隔を空けてゆったり読ませる */
 }
 
 /* ========== トップページ ========== */
@@ -224,7 +226,7 @@ body {
 
 .about-section p {
     margin-bottom: 1rem;
-    line-height: 1.8;
+    line-height: 1.6;
 }
 
 .about-section ol {
@@ -309,8 +311,8 @@ body {
 }
 
 .reader-content p {
-    margin-bottom: 1.5rem;
-    line-height: 2;
+    margin-bottom: 1.2rem;
+    line-height: 1.7;
 }
 
 .reader-content hr {
@@ -511,4 +513,68 @@ body {
     .volume-slider {
         width: 60px;
     }
+}
+
+/* ========== 演出効果: グラスモーフィズム ========== */
+/* テキスト表示エリアに「すりガラスの箱」の質感を追加 */
+#content {
+    background: rgba(20, 25, 30, 0.7); /* 少し青みがかった黒の半透明 */
+    backdrop-filter: blur(10px); /* 【重要】背景をぼかす（すりガラス効果） */
+    -webkit-backdrop-filter: blur(10px); /* Safari対応 */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* 薄い縁取りでガラスの厚みを表現 */
+    border-radius: 8px; /* 角を少し丸める */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* 影を落として浮遊感を出す */
+}
+
+/* メニューボタンや選択肢ボタンにも適用 */
+.menu-btn,
+.choice-btn {
+    background: rgba(21, 27, 36, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn:hover,
+.choice-btn:hover {
+    background: rgba(74, 158, 255, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: rgba(107, 179, 255, 0.5);
+}
+
+/* ========== 演出効果: 背景画像システム ========== */
+/* 背景画像レイヤー（シーンに応じて画像を切り替える） */
+.bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+    /* 画像切り替え時のフェードイン効果 */
+    transition: background-image 1.5s ease-in-out;
+    /* ケン・バーンズ効果（ゆっくりズーム） */
+    animation: slow-zoom 20s alternate infinite ease-in-out;
+}
+
+@keyframes slow-zoom {
+    from { transform: scale(1.0); }
+    to { transform: scale(1.05); }
+}
+
+/* 暗いオーバーレイで読みやすさを確保 */
+.bg-layer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 14, 20, 0.7);
+    z-index: 1;
 }

@@ -1,5 +1,12 @@
-# トゥルーエンディング
+# 箱が生まれない場所
 ## 手順の外側
+
+<script>
+// エンディングページでは次のセクションボタンを無効化
+window.addEventListener('DOMContentLoaded', () => {
+    sessionStorage.removeItem('canGoForward');
+});
+</script>
 
 ---
 

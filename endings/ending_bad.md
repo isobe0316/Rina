@@ -1,5 +1,12 @@
-# バッドエンディング
-## 触れた指のあと
+# 触れた指のあと
+## きれいに壊れる
+
+<script>
+// エンディングページでは次のセクションボタンを無効化
+window.addEventListener('DOMContentLoaded', () => {
+    sessionStorage.removeItem('canGoForward');
+});
+</script>
 
 ---
 

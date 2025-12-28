@@ -1,5 +1,12 @@
-# デッドエンディング: 水位
+# 水位
 ## 静かに沈む
+
+<script>
+// エンディングページでは次のセクションボタンを無効化
+window.addEventListener('DOMContentLoaded', () => {
+    sessionStorage.removeItem('canGoForward');
+});
+</script>
 
 ---
 

@@ -1,5 +1,12 @@
-# ノーマルエンディング
-## まだ合っていない
+# まだ合っていない
+## 埋まらないまま
+
+<script>
+// エンディングページでは次のセクションボタンを無効化
+window.addEventListener('DOMContentLoaded', () => {
+    sessionStorage.removeItem('canGoForward');
+});
+</script>
 
 ---
 

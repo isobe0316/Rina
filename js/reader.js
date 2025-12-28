@@ -4,6 +4,27 @@ let currentFile = '';
 let currentSections = [];
 let currentSectionIndex = 0;
 
+// ========== 背景画像管理 ==========
+// 背景画像を変更するヘルパー関数
+function changeBg(imagePath) {
+    const bgLayer = document.getElementById('bg-image');
+    if (bgLayer) {
+        bgLayer.style.backgroundImage = `url('${imagePath}')`;
+    }
+}
+
+// デフォルト背景に戻す
+function resetBg() {
+    const bgLayer = document.getElementById('bg-image');
+    if (bgLayer) {
+        bgLayer.style.backgroundImage = '';
+    }
+}
+
+// グローバル関数として公開（Markdown内のscriptタグから呼べるように）
+window.changeBg = changeBg;
+window.resetBg = resetBg;
+
 // URLパラメータからファイル名を取得
 function getFileFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -48,6 +69,9 @@ async function renderMarkdown() {
     // セクションに分割（h2タグで分割）
     splitIntoSections();
     
+    // 次のセクションボタンの状態を確認
+    checkForwardButton();
+    
     // URLハッシュがある場合はそこへスクロール
     if (window.location.hash) {
         setTimeout(() => {
@@ -85,6 +109,9 @@ function addChoiceButtonListeners() {
                 if (typeof audioManager !== 'undefined') {
                     audioManager.stop(false); // 即座に停止
                 }
+                // 遷移先で履歴があることを示すフラグを設定
+                sessionStorage.setItem('hasHistory', 'true');
+                sessionStorage.removeItem('canGoForward');
             }
         });
     });
@@ -121,68 +148,67 @@ function playMusicForContent(content, filePath) {
     }, 500);
 }
 
-// コンテンツをセクションに分割
+// コンテンツをセクションに分割（履歴ベースのナビゲーション用）
 function splitIntoSections() {
-    const contentDiv = document.getElementById('content');
-    const h2Elements = contentDiv.querySelectorAll('h2');
-    
-    currentSections = [];
-    currentSectionIndex = 0;
-    
-    if (h2Elements.length === 0) {
-        // セクション分割なし
-        document.getElementById('prev-section').disabled = true;
-        document.getElementById('next-section').disabled = true;
-        return;
-    }
-    
-    // 各セクションの開始位置を記録（スクロール後に再計算）
-    setTimeout(() => {
-        h2Elements.forEach((h2, index) => {
-            currentSections.push({
-                element: h2,
-                offset: h2.offsetTop
-            });
-        });
-        updateSectionButtons();
-    }, 100);
+    // ページ履歴ベースのナビゲーションに変更
+    updateHistoryButtons();
 }
 
-// セクションボタンの状態を更新
-function updateSectionButtons() {
+// 履歴ボタンの状態を更新
+function updateHistoryButtons() {
     const prevBtn = document.getElementById('prev-section');
     const nextBtn = document.getElementById('next-section');
     
-    prevBtn.disabled = currentSectionIndex === 0;
-    nextBtn.disabled = currentSectionIndex >= currentSections.length - 1;
+    // 前のセクション（戻る）は履歴があれば有効
+    // ページ読み込み直後はwindow.history.lengthが更新されていないため、
+    // sessionStorageで履歴の有無を管理
+    const hasHistory = sessionStorage.getItem('hasHistory') === 'true';
+    prevBtn.disabled = !hasHistory;
+    
+    // 次のセクション（進む）は戻った後のみ有効
+    const canGoForward = sessionStorage.getItem('canGoForward') === 'true';
+    nextBtn.disabled = !canGoForward;
 }
 
-// 前のセクションへ
+// 前のセクションへ（履歴を戻る）
 function goToPrevSection() {
-    if (currentSectionIndex > 0) {
-        currentSectionIndex--;
-        scrollToSection(currentSectionIndex);
-    }
+    // 戻る前に次のセクションを有効化するフラグをセット
+    sessionStorage.setItem('canGoForward', 'true');
+    // hasHistoryは削除しない（戻った先でも履歴は存在する）
+    window.history.back();
 }
 
-// 次のセクションへ
+// 次のセクションへ（履歴を進む）
 function goToNextSection() {
-    if (currentSectionIndex < currentSections.length - 1) {
-        currentSectionIndex++;
-        scrollToSection(currentSectionIndex);
+    // sessionStorageのフラグを確認
+    if (sessionStorage.getItem('canGoForward') === 'true') {
+        sessionStorage.removeItem('canGoForward');
+        sessionStorage.setItem('hasHistory', 'true');
+        window.history.forward();
     }
 }
 
-// 指定セクションへスクロール
-function scrollToSection(index) {
-    if (currentSections[index]) {
-        const targetOffset = currentSections[index].offset - 100; // ナビゲーション分のオフセット
-        window.scrollTo({
-            top: targetOffset,
-            behavior: 'smooth'
-        });
-        updateSectionButtons();
+// ページ読み込み後に履歴ボタンの状態を確認
+function checkForwardButton() {
+    // canGoForwardフラグがある場合は、戻ってきたページなので何もしない
+    if (sessionStorage.getItem('canGoForward') === 'true') {
+        return;
     }
+    
+    // 新規遷移の場合、履歴を設定
+    // index.htmlからの最初のページかどうかをチェック
+    const referrer = document.referrer;
+    const isFromIndex = referrer.includes('index.html') || referrer === '';
+    const isFromSameDomain = referrer.includes(window.location.hostname) || referrer === '';
+    
+    // 同じドメイン内の遷移で、index.htmlからでない場合は履歴あり
+    if (isFromSameDomain && !isFromIndex) {
+        sessionStorage.setItem('hasHistory', 'true');
+    } else if (!isFromSameDomain && referrer !== '') {
+        // 外部からの遷移の場合も履歴なし
+        sessionStorage.removeItem('hasHistory');
+    }
+    // index.htmlからの場合は hasHistory を設定しない（初回ページ）
 }
 
 // スクロール進捗を更新
@@ -210,9 +236,12 @@ window.addEventListener('scroll', () => {
 
 // キーボードショートカット
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
+    const prevBtn = document.getElementById('prev-section');
+    const nextBtn = document.getElementById('next-section');
+    
+    if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
         goToPrevSection();
-    } else if (e.key === 'ArrowRight') {
+    } else if (e.key === 'ArrowRight' && !nextBtn.disabled) {
         goToNextSection();
     }
 });

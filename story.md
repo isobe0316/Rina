@@ -1342,8 +1342,8 @@ OB向けの、事務的な案内でもない。
 ---
 
 <div class="choice-buttons">
-  <a href="reader.html?file=routes/route_a.md" class="choice-btn">美咲のことを梨奈に話す</a>
-  <a href="reader.html?file=routes/route_b.md" class="choice-btn">梨奈の過去を聞く</a>
+  <a href="reader.html?file=routes/route_a1.md" class="choice-btn">美咲のことを梨奈に話す</a>
+  <a href="reader.html?file=routes/route_b1.md" class="choice-btn">梨奈の過去を聞く</a>
   <a href="reader.html?file=routes/route_c.md" class="choice-btn">箱の処理を優先する</a>
 </div>
 
