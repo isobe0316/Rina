@@ -175,7 +175,7 @@ function playMusicForContent(content, filePath) {
             return;
         }
         if (filePath.includes('route_a')) {
-            audioManager.play('akutoSolitude', { loop: true });
+            audioManager.play('misakiBoxTheme', { loop: true });
             return;
         }
         if (filePath.includes('route_b')) {

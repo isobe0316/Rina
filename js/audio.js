@@ -10,12 +10,13 @@ class AudioManager {
         
         // 音楽ファイルの定義
         this.tracks = {
-            // === 歌（ボーカル入り）4曲 ===
+            // === 歌（ボーカル入り）5曲 ===
             op: 'audio/op_theme.mp3',                         // OPテーマ
             storyOpening: 'audio/story_opening.mp3',          // ストーリー導入曲
             choiceMoment: 'audio/choice_moment.mp3',          // 挿入歌：運命の分岐点
             trueEnd: 'audio/true_ed.mp3',                     // True EDテーマ：雨上がりの別れ
             badDeadEnd: 'audio/bad_dead_ed.mp3',              // Bad/Dead EDテーマ：水位と沈殿
+            misakiBoxTheme: 'audio/misaki_box_theme.mp3',     // 美咲の箱テーマ：盾にならない箱
             
             // === メインストーリー用BGM 8曲 ===
             officeNight: 'audio/bgm/office_night.mp3',        // オフィスの夜
