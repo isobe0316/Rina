@@ -179,5 +179,6 @@
 ---
 
 <div class="choice-buttons">
-  <a href="reader.html?file=story_ch2.md" class="choice-btn">第2章へ進む</a>
+  <a href="reader.html?file=story_ch2.md" class="choice-btn">第2章へ進む - メインストーリー</a>
+  <a href="reader.html?file=routes/route_a1.md" class="choice-btn">美咲の記憶を振り返る - 『美咲の箱』</a>
 </div>

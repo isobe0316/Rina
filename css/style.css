@@ -291,6 +291,14 @@ body {
     user-select: none;
 }
 
+.volume-control label svg {
+    transition: fill 0.2s ease;
+}
+
+.volume-control label:hover svg {
+    fill: var(--accent-hover);
+}
+
 .volume-control input[type="range"] {
     width: 100px;
     height: 4px;
@@ -342,6 +350,14 @@ body {
     font-size: 1.2rem;
     cursor: help;
     user-select: none;
+}
+
+.bg-opacity-control label svg {
+    transition: fill 0.2s ease;
+}
+
+.bg-opacity-control label:hover svg {
+    fill: var(--accent-hover);
 }
 
 .bg-opacity-control input[type="range"] {
@@ -556,75 +572,55 @@ body {
     }
 }
 
-/* ========== 音楽コントロールUI ========== */
-.audio-controls {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+/* ========== 下部コントロールバー ========== */
+.bottom-controls {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+    background: rgba(21, 27, 36, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+}
+
+.bg-view-btn {
     background: var(--bg-secondary);
-    padding: 10px 15px;
-    border-radius: 25px;
     border: 1px solid var(--border);
-    box-shadow: 0 4px 12px var(--shadow);
-    z-index: 1000;
-}
-
-.audio-btn {
-    background: none;
-    border: none;
+    padding: 0.6rem 1.2rem;
     cursor: pointer;
-    font-size: 1.5rem;
-    padding: 5px;
-    transition: transform 0.2s ease;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-.audio-btn:hover {
-    transform: scale(1.1);
+.bg-view-btn svg {
+    transition: fill 0.2s ease;
 }
 
-.audio-icon {
-    display: block;
-}
-
-.volume-slider {
-    width: 80px;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    outline: none;
-    -webkit-appearance: none;
-}
-
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
+.bg-view-btn:hover {
     background: var(--accent);
-    border-radius: 50%;
-    cursor: pointer;
+    border-color: var(--accent-hover);
+    transform: translateY(-2px);
 }
 
-.volume-slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    background: var(--accent);
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
+.bg-view-btn:hover svg {
+    fill: #ffffff;
+}
+
+.bg-view-btn:active {
+    transform: translateY(0);
 }
 
 @media (max-width: 768px) {
-    .audio-controls {
-        bottom: 10px;
-        right: 10px;
-        padding: 8px 12px;
-    }
-    
-    .volume-slider {
-        width: 60px;
+    .bottom-controls {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
 

@@ -169,8 +169,13 @@ function playMusicForContent(content, filePath) {
         }
         
         // ルートファイルの場合
+        // route_a_cafe.md は別のBGM
+        if (filePath.includes('route_a_cafe')) {
+            audioManager.play('lostConnection', { loop: true });
+            return;
+        }
         if (filePath.includes('route_a')) {
-            audioManager.play('routeAShield', { loop: true });
+            audioManager.play('akutoSolitude', { loop: true });
             return;
         }
         if (filePath.includes('route_b')) {
@@ -304,17 +309,86 @@ if (bgOpacitySlider) {
 
 function updateBgOpacity(value) {
     const bgLayer = document.getElementById('bg-image');
-    if (bgLayer) {
-        // 0-80の値を0-0.8の透明度に変換
-        const opacity = value / 100;
-        // .bg-layer::afterの背景色の透明度を調整
-        const style = document.getElementById('bg-opacity-style') || document.createElement('style');
-        style.id = 'bg-opacity-style';
-        style.textContent = `.bg-layer::after { background: rgba(10, 14, 20, ${opacity}) !important; }`;
-        if (!document.getElementById('bg-opacity-style')) {
-            document.head.appendChild(style);
+    const contentDiv = document.getElementById('content');
+    
+    if (bgLayer && contentDiv) {
+        if (value >= 100) {
+            // 100の場合は文字を完全に消して背景のみ表示
+            contentDiv.style.opacity = '0';
+            bgLayer.style.opacity = '1';
+            const style = document.getElementById('bg-opacity-style') || document.createElement('style');
+            style.id = 'bg-opacity-style';
+            style.textContent = `.bg-layer::after { background: rgba(10, 14, 20, 0) !important; }`;
+            if (!document.getElementById('bg-opacity-style')) {
+                document.head.appendChild(style);
+            }
+        } else {
+            // 通常の透過度調整（0-99）
+            contentDiv.style.opacity = '1';
+            const opacity = value / 100;
+            const style = document.getElementById('bg-opacity-style') || document.createElement('style');
+            style.id = 'bg-opacity-style';
+            style.textContent = `.bg-layer::after { background: rgba(10, 14, 20, ${opacity}) !important; }`;
+            if (!document.getElementById('bg-opacity-style')) {
+                document.head.appendChild(style);
+            }
         }
     }
+}
+
+// 背景表示ボタン
+const bgViewBtn = document.getElementById('bg-view-btn');
+if (bgViewBtn) {
+    let isViewingBg = false;
+    let previousOpacity = bgOpacitySlider ? bgOpacitySlider.value : 50;
+    
+    const iconImage = bgViewBtn.querySelector('.icon-image');
+    const iconClose = bgViewBtn.querySelector('.icon-close');
+    
+    bgViewBtn.addEventListener('click', () => {
+        const contentDiv = document.getElementById('content');
+        const readerControls = document.querySelector('.reader-controls');
+        const volumeControl = document.querySelector('.volume-control');
+        const bgOpacityControl = document.querySelector('.bg-opacity-control');
+        const readerNav = document.querySelector('.reader-nav');
+        
+        if (!isViewingBg) {
+            // 背景表示モード
+            previousOpacity = bgOpacitySlider ? bgOpacitySlider.value : 50;
+            if (bgOpacitySlider) {
+                bgOpacitySlider.value = 100;
+                updateBgOpacity(100);
+            }
+            if (contentDiv) contentDiv.style.display = 'none';
+            if (readerControls) readerControls.style.display = 'none';
+            if (volumeControl) volumeControl.style.display = 'none';
+            if (bgOpacityControl) bgOpacityControl.style.display = 'none';
+            if (readerNav) readerNav.style.opacity = '0.3';
+            
+            // アイコンを切り替え
+            if (iconImage) iconImage.style.display = 'none';
+            if (iconClose) iconClose.style.display = 'block';
+            bgViewBtn.title = '戻る';
+            isViewingBg = true;
+        } else {
+            // 通常モードに戻る
+            if (bgOpacitySlider) {
+                bgOpacitySlider.value = previousOpacity;
+                updateBgOpacity(previousOpacity);
+            }
+            if (contentDiv) contentDiv.style.display = 'block';
+            if (readerControls) readerControls.style.display = 'flex';
+            if (volumeControl) volumeControl.style.display = 'flex';
+            if (bgOpacityControl) bgOpacityControl.style.display = 'flex';
+            if (readerNav) readerNav.style.opacity = '1';
+            
+            // アイコンを切り替え
+            if (iconImage) iconImage.style.display = 'block';
+            if (iconClose) iconClose.style.display = 'none';
+            bgViewBtn.title = '背景画像のみを表示';
+            isViewingBg = false;
+        }
+    });
 }
 
 // スクロール時に進捗を更新
